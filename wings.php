@@ -6,7 +6,7 @@ Version: 0.1
 Author: Ulrich Green
 Description: What does your plugin do and what features does it offer...
 */
-new Wings;
+
 class Wings {
 	protected $pluginPath;
 	protected $pluginUrl;
@@ -19,8 +19,8 @@ class Wings {
 		$this->pluginPath = dirname(__FILE__);
 
 		// Set Plugin URL
-		$this->pluginUrl = WP_PLUGIN_URL;
-
+		$this->pluginUrl = WP_PLUGIN_URL . '/wings';
+		add_action('login_head', array($this, 'login_head'));
 		add_action('admin_menu', array($this, 'admin_menu'));
 	}
 
@@ -28,4 +28,14 @@ class Wings {
 	function admin_menu() {
 		add_options_page(__('All Settings'), __('All Settings'), 'administrator', 'options.php');
 	}
+	
+	function login_head() { 
+		?><style type="text/css">
+			.login h1 a {
+				background: url(<?php echo $this->pluginUrl.'/images/logo.png'; ?>) no-repeat top center;
+				margin-bottom: 10px;
+			}
+		</style><?php
+	}
 }
+new Wings;
